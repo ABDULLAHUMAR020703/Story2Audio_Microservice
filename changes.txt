@@ -1,0 +1,14 @@
+1. Downloaded llama3.2:1b and mistral:7b-instruct
+2. Commands to Download them: " ollama pull llama3.2:1b " -> For llama3.2:1b | " ollama pull mistral:7b-instruct " -> For Mistral
+3. Added a paragraph button on front end, user choose krta hai para length and then uske lehaz sai we use the llm.
+4. currently there are 3 llms being used but only ONE gets used at a time. 
+5. Ager para length 1-3 hai to llama3.2:1b use ho gha which generates short para/audio and is fast
+6. For 4-7 Mistral wala llm use ho gha which will generate longer story/audio
+7. Orignal llm jo orignally use kiya is the best to ager best story chahyay aur lambi chahyay to we use this ( 8+ Para )
+8. The shorter the para length, the faster the model works and the less space it takes in RAM
+8. XTTS ko ni chaira, I did try to lighten it laiken audio kharab ho rahi thi to did not change anything
+9. Front end mai thorey changes nazr aye gai
+10. Subtitle wala feature sai kaam ni krta ager kaam krna hai to usko sai krdi
+11. added multispeaker support for it -> changed proto added a field there you can now change voices of the speaker narration
+12.added different voice for dialogues,select a narration audio and then dialogues will be done in a different default voice ->changes in the server_ms file only.
+->will need pydub for the point above -> pip install pydub

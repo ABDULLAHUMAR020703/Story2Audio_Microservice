@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package story;
+
+service StoryService {
+  rpc GenerateStory (StoryRequest) returns (StoryResponse);
+}
+
+message StoryRequest {
+  string prompt = 1;
+  string emotion = 2;
+  float speed = 3;
+  string language = 4;
+  string speaker_audio = 5;
+  bool include_narration = 6;
+}
+
+message StoryResponse {
+  bytes audio = 1;
+  string text = 2;
+  string message = 3;
+}

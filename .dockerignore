@@ -1,0 +1,35 @@
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Virtual environments
+.venv/
+venv/
+
+# Git
+.git/
+.gitignore
+
+# Large models and checkpoints
+*.pth
+*.pt
+*.bin
+tts_models/
+models/
+datasets/
+
+# Audio output and temp files (but not voices/)
+output/
+frontend_received_audio.wav
+temp_output.wav
+sample.wav
+sample2.wav
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Docker build files themselves (optional, since they're needed anyway)
+# Dockerfile
+# .dockerignore
