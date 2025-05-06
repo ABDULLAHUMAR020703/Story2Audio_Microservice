@@ -180,7 +180,6 @@ The graph below shows the average response time based on story length and voice 
 
 ![Average Response Time vs. Paragraph Range](./performance_graph.png)
 
-*Note: If the graph isn't visible above, please check the `docs/images/performance_graph.png` file in the repository.*
 
 | Paragraph Range | Narration Only | Narration + Dialogue |
 |-----------------|---------------:|---------------------:|
@@ -191,13 +190,16 @@ The graph below shows the average response time based on story length and voice 
 Key observations:
 - Narration + Dialogue mode takes approximately 20-30% longer than Narration Only
 - Processing time increases significantly between short (1-3) and medium (4-7) stories
-- Response times are based on a system with NVIDIA RTX 3080 GPU
+- Response times are based on a system with NVIDIA RTX 3050 GPU
 
 ---
 
 > ℹ️ **Tips for Best Results**:  
-> * Use specific, emotionally rich story prompts
-> * Choose voice and emotion that match your story theme
-> * For longer stories, use [PARA_LEVEL:8+] in your prompt
+> * Prompt must be in English — this works best for generating English audio stories  
+> * Use specific, emotionally rich story prompts  
+> * Choose a voice and emotion that match your story theme  
+> * For longer stories, use `[PARA_LEVEL:8+]` in your prompt  
+> * High-quality speaker audio (clear, minimal background noise) improves speaker cloning  
+> * Longer paragraph levels take more time to process; shorter ones are faster  
 > * Ensure GPU is enabled for faster processing
-> * High-quality speaker audio (clear, minimal background noise) improves voice cloning results
+
