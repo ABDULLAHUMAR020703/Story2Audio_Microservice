@@ -28,11 +28,14 @@ os.makedirs(OUTPUT_DIR, exist_ok=True)
 
 
 # Load TTS model
-tts = TTS(
-    model_path="xtts_model",
-    config_path="xtts_model/config.json",
-    progress_bar=False
-)
+# tts = TTS(
+#     model_path="xtts_model",
+#     config_path="xtts_model/config.json",
+#     progress_bar=False
+# )
+
+tts = TTS(model_name="tts_models/multilingual/multi-dataset/xtts_v2", progress_bar=False)
+
 
 
 
@@ -96,6 +99,7 @@ IMPORTANT:
 - Ensure the story doesn't end abruptly and provides a clean, meaningful conclusion.
 - Story Naration in Third Person
 - Story length: ~350 words.
+- PLEASE MAKE SURE THE STORY HAS A PROPER END
 
 Storyline: """
 
@@ -113,6 +117,7 @@ IMPORTANT:
 - Ensure the story doesn't end abruptly and provides a clean, meaningful conclusion.
 - Story Naration in Third Person
 - Story length: ~550–700 words.
+- PLEASE MAKE SURE THE STORY HAS A PROPER END
 
 Storyline:
  """
@@ -131,6 +136,7 @@ IMPORTANT:
 - Ensure the story doesn't end abruptly and provides a clean, meaningful conclusion.
 - Story Naration in Third Person
 -Story length: ~800–1200+ words.
+- PLEASE MAKE SURE THE STORY HAS A PROPER END
 
 Storyline:"""
 
@@ -277,11 +283,11 @@ def get_llama3_response(user_input, split_voices):
     chat_history.append({"role": "user", "content": user_input})
     if "[PARA_LEVEL:1–3]" in user_input:
         model_name = "llama3.2:1b"
-        num_predict = 250
+        num_predict = 2000
         level = "short"
     elif "[PARA_LEVEL:4–7]" in user_input:
         model_name = "mistral:7b-instruct"
-        num_predict = 1100
+        num_predict = 2000
         level = "medium"
     else:
         model_name = "llama3"
