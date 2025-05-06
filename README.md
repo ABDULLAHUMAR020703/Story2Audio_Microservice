@@ -11,13 +11,13 @@ User (Streamlit or REST)
         │
         ▼
 ┌─────────────────────────────────────────┐
-│         gRPC Server         │
-│  ┌─────────────────────────┐  │
-│  │ - Story prompt + meta │  │
-│  │ - LLaMA3/Mistral LLM   │  │
-│  │ - XTTS for voice TTS  │  │
-│  └─────────────────────────┘  │
-└─────────────────────────────────────┘
+│         gRPC Server                     │
+│  ┌─────────────────────────┐            │
+│  │ - Story prompt + meta   │            │
+│  │ - LLaMA3/Mistral LLM    │            │
+│  │ - XTTS for voice TTS    │            │
+│  └─────────────────────────┘            │
+└─────────────────────────────────────────┘
         │
         ▼
 🎧 Audio Output + 📜 Story Text
@@ -28,42 +28,46 @@ User (Streamlit or REST)
 ## ⚙️ Set Up Environment
 
 ```bash
-# 1. Create a virtual environment
+# 1. Clone the repository
+git clone https://github.com/yourusername/story2audio.git
+cd story2audio
+
+# 2. Create a virtual environment
 python -m venv venv
 source venv/bin/activate  # On Windows: venv\Scripts\activate
 
-# 2. Install dependencies
+# 3. Install dependencies
 pip install -r requirements.txt
+
+# 4. Prepare model directories
+mkdir -p output voices xtts_model
 ```
 
 > ✅ Make sure you have:
 >
 > * A CUDA-compatible GPU (for XTTS)
-> * `ollama` installed and running locally
-> * XTTS model files inside `xtts_model/`
+> * `ollama` installed and running locally (`ollama pull llama3` and `ollama pull mistral:7b-instruct`)
+> * XTTS model files inside `xtts_model/` directory
+> * Protocol buffers compiler installed for gRPC
 
 ---
 
 ## 🚀 Running the Service
 
 ### Start the gRPC server
-
 ```bash
 python server.py
 ```
 
 ### Start the Streamlit frontend
-
 ```bash
 streamlit run streamlit_ms.py
 ```
 
 ### (Optional) Start the REST proxy server
-
 ```bash
 python rest_server.py
 ```
-
 This will start a REST server at `http://localhost:8000/generate-story/`.
 
 ---
@@ -71,7 +75,6 @@ This will start a REST server at `http://localhost:8000/generate-story/`.
 ## 📱 gRPC Interface
 
 ### Proto file: `story_service.proto`
-
 ```proto
 syntax = "proto3";
 
@@ -99,23 +102,23 @@ message StoryResponse {
 
 ## ✨ Features
 
-* 📜 Natural story generation via LLaMA 3 / Mistral
-* 🗣️ Narration-only or narration + dialogue (female character)
-* 🎭 Emotion detection and synthesis (happy, sad, angry, etc.)
-* 🌐 Multi-language support (en, es, fr, de, hi, it, ru)
-* 🔊 Clone any speaker voice by uploading a `.wav` file (≥15s)
-* 🧠 Real-time processing using gRPC with concurrent tasks
+* 📜 **Intelligent Story Generation**: Create compelling stories with LLaMA3 or Mistral based on your prompt and desired length
+* 🎭 **Emotional Expression**: Choose from different emotional tones (happy, sad, angry, neutral)
+* 🗣️ **Voice Modes**: Select between narration-only or narration + dialogue (with female character voices)
+* 🌐 **Multi-language Support**: Generate stories in multiple languages (en, es, fr, de, hi, it, ru)
+* 🔊 **Voice Cloning**: Use any voice by uploading a .wav file (≥15s) or recording directly in the app
+* ⚡ **Concurrent Processing**: Generate multiple stories simultaneously with real-time progress tracking
+* 🎛️ **Customization Options**: Adjust speech speed and story complexity to your preferences
 
 ---
 
 ## 🗣️ How to Add Custom Voice
 
 In the Streamlit interface:
-
-1. Upload a `.wav` file (min 15 seconds)
-2. OR record your voice using the microphone recorder
-3. Provide a speaker name (must be unique)
-4. Your voice will appear in the dropdown for story generation
+1. Upload a `.wav` file (minimum 15 seconds)
+2. OR record your voice using the built-in microphone recorder
+3. Provide a unique speaker name
+4. Your voice will appear in the dropdown menu for future story generation
 
 All voices are saved under the `voices/` folder and indexed in `speakers.json`.
 
@@ -124,13 +127,11 @@ All voices are saved under the `voices/` folder and indexed in `speakers.json`.
 ## 🌐 REST API Usage
 
 ### Endpoint:
-
 ```
 POST http://localhost:8000/generate-story/
 ```
 
 ### JSON Payload:
-
 ```json
 {
   "prompt": "[PARA_LEVEL:1–3] A young girl finds a lost puppy in the rain.",
@@ -143,7 +144,6 @@ POST http://localhost:8000/generate-story/
 ```
 
 ### Response:
-
 ```json
 {
   "text": "Generated story text...",
@@ -156,8 +156,7 @@ POST http://localhost:8000/generate-story/
 
 ## 🧪 Test Case Format & Automation
 
-Sample test case format (`test_cases.json`):
-
+Sample test case format (`TestCases.json`):
 ```json
 [
   {
@@ -175,4 +174,30 @@ You can use this with `rest_server.py` to send batches of test prompts to the gR
 
 ---
 
-> ℹ️ For best results, ensure GPU is enabled, and XTTS + LLaMA models are preloaded.
+## 📊 Performance Evaluation
+
+The graph below shows the average response time based on story length and voice mode:
+
+![Average Response Time vs. Paragraph Range](./performance_graph.png)
+
+*Note: If the graph isn't visible above, please check the `docs/images/performance_graph.png` file in the repository.*
+
+| Paragraph Range | Narration Only | Narration + Dialogue |
+|-----------------|---------------:|---------------------:|
+| 1-3 paragraphs  | ~1.8 minutes   | ~2.8 minutes         |
+| 4-7 paragraphs  | ~7.0 minutes   | ~9.0 minutes         |
+| 8+ paragraphs   | ~8.0 minutes   | ~9.9 minutes         |
+
+Key observations:
+- Narration + Dialogue mode takes approximately 20-30% longer than Narration Only
+- Processing time increases significantly between short (1-3) and medium (4-7) stories
+- Response times are based on a system with NVIDIA RTX 3080 GPU
+
+---
+
+> ℹ️ **Tips for Best Results**:  
+> * Use specific, emotionally rich story prompts
+> * Choose voice and emotion that match your story theme
+> * For longer stories, use [PARA_LEVEL:8+] in your prompt
+> * Ensure GPU is enabled for faster processing
+> * High-quality speaker audio (clear, minimal background noise) improves voice cloning results
