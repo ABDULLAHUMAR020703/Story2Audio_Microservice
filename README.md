@@ -203,3 +203,8 @@ Key observations:
 > * Longer paragraph levels take more time to process; shorter ones are faster  
 > * Ensure GPU is enabled for faster processing
 
+
+## 👥 Contributors
+- Hasnain Ibrar Butt (https://github.com/Hasnain2430))
+- Abdullah Bin Umar (https://github.com/ABDULLAHUMAR020703)
+
